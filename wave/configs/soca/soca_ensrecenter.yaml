@@ -1,0 +1,40 @@
+# the list of analysis files depends on whether we're using ice
+_: &ana_files_ocn
+    ocn_filename: MOM.res.nc
+_: &ana_files_ocn_ice
+    ice_filename: cice.res.nc
+    << : *ana_files_ocn
+_: &ana_files_ocn_wav
+    wav_filename: wav.res.nc
+    << : *ana_files_ocn
+_: &ana_files *ana_files___DOMAINS__
+
+_: &soca_vars [__DA_VARIABLES__, mld, layer_depth]
+
+geometry:
+  mom6_input_nml: mom_input.nml
+  fields metadata: fields_metadata.yaml
+
+recenter variables: *soca_vars
+
+_: &ens_member
+  read_from_file: 1
+  date: __DA_ANA_DATE__
+  basename: ./ens_in/
+  state variables: *soca_vars
+
+center:
+  basename: ./ens_center/
+  read_from_file: 1
+  date: __DA_ANA_DATE__
+  << : *ana_files
+  state variables: *soca_vars
+
+recentered output:
+  datadir: ana_ens
+  exp: __OUTPUT_DESCRIPTOR__
+  type: ens
+  date: __DA_ANA_DATE__
+
+ensemble:
+__ENSEMBLE__

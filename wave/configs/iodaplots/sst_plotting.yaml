@@ -1,0 +1,54 @@
+_:
+
+- &plotting_one_merged
+  basic:
+  - class: PlotType2D*
+    any:
+    - metric: [ombg, oman, inc]
+      stat: [rmsd, bias]
+    - metric: [obs, ]
+      stat: [mean, stddev, count]
+
+- &plotting_one_cat
+  basic:
+  - class: PlotType2D*
+    metric: [ombg, oman, inc]
+    stat: [rmsd, bias]
+  - class: PlotType1D*
+    metric: [obs, ]
+    stat: [mean, count]
+
+- &plotting_diff_merged
+  basic:
+  - class: PlotType2D*
+    any:
+    - metric: [ombg, oman]
+      stat: [rmsd, bias]
+    - metric: [inc, ]
+      stat: [rmsd, ]
+    # - metric: [obs, ] # TODO remove this once i'm sure QC works right
+    #   stat: [mean, count]
+
+- &plotting_diff_cat
+  basic:
+  - class: PlotType2D*
+    any:
+    - metric: [ombg, oman, inc]
+      stat: [rmsd, bias]
+
+- &plotting_all_merged
+  basic:
+  - class: PlotType1D*
+    metric: [ombg, oman, inc]
+    stat: [rmsd, bias]
+
+- &plotting_all_cat
+  basic:
+  - class: PlotType1D*
+    metric: [ombg, oman, inc]
+    stat: [rmsd, bias]
+
+#-------------------------------------------------------------------------------
+
+plotting:
+  << : *plotting___MODE__

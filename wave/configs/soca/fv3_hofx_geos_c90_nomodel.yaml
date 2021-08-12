@@ -1,0 +1,32 @@
+_: &obs_land_mask
+  filter: Domain Check
+  where:
+  - variable: {name: water_area_fraction@GeoVaLs}
+    minvalue: 0.9
+geometry:
+  nml_file_mpp: Data/fv3files/fmsmpp.nml
+  trc_file: Data/fv3files/field_table
+  akbk: Data/fv3files/akbk72.nc4
+  layout: [10,6]
+  io_layout: [1,1]
+  npx: 91 
+  npy: 91
+  npz: 72
+  ntiles: 6
+  fieldsets:
+  - fieldset: Data/fieldsets/dynamics.yaml
+  - fieldset: Data/fieldsets/ufo.yaml
+
+state:
+  filetype: geos
+  state variables: [u,v,ua,va,t,delp,q,qi,ql,o3mr,phis,frocean,frlake,
+                    frseaice,vtype,stype,vfrac,sheleg,ts,soilt,soilm,u10m,v10m]
+  datapath: ./
+  filename_bkgd: jedi-geos-c90.geosgcm_traj.nc4
+  filename_crtm: Data/geos_c90/geos.bkg.crtmsrf.nc4
+
+window length: __DA_WINDOW_LENGTH__
+window begin: __DA_WINDOW_START__
+
+observations:
+  __OBSERVATIONS__
