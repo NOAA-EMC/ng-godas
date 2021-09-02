@@ -1,0 +1,7 @@
+Create new directory called exp.
+Clone soca-science into exp directory.
+Edit start_year, start month, and start day in prep.ufs_fv3_cpld.sh. 
+Run prep.ufs_fv3_cpld.sh by entering 'sh prep.ufs_fv3_cpld.sh' in the command line.
+(This will run 12h ufs-weather model RT cpld_bmark_v16 to generate restart files needed by soca-science,
+and stage all necessary configuration files and UFS scripts.)
+Copy exp.config from /work/noaa/marine/Cameron.Book/fv3/ng-godas/cpld_setup, and edit EXP_START_DATE to match start date from regressiontest.
