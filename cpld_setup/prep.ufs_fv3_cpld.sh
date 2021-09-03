@@ -56,3 +56,7 @@ cp coupler.res fv_core.res* fv_srf_wnd.res* fv_tracer.res* iced*43200.nc MOM.res
 cd ../../
 ncks -A -C -v ave_ssh,v ./cfg/RESTART/${start_date}12/MOM.res_1.nc ./cfg/RESTART/${start_date}12/MOM.res.nc
 python ./soca-science/tools/seaice/soca_seaice.py -m cice -f ./cfg/RESTART/${start_date}12/iced.${start_year}-${start_month}-${start_day}-43200.nc -a model2soca -o ./cfg/RESTART/${start_date}12/cice.res.nc
+
+# set the correct restart directory and EXP_START_DATE for soca-science exp.config file."
+sed -i.SEDBACKUP "s+EXP_START_DATE.*+EXP_START_DATE=${start_date}Z12+" exp.config
+sed -i.SEDBACKUP "s+BKGRST_SRC.*+BKGRST_SRC=$EXP_DIR/cfg/RESTART/${start_date}12+" exp.config
