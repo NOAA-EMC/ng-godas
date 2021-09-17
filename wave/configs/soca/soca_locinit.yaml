@@ -58,8 +58,7 @@ bump:
   method: loc
   strategy: common
   new_nicas: 1
-  ntry: 3
-  nrep:  2
+  write_nicas_local: 1
   resol: 6.0
   mpicom: 2
   forced_radii: 1

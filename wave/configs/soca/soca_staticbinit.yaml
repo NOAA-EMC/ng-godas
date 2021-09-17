@@ -56,10 +56,7 @@ background error:
     method: cor
     strategy: specific_univariate
     new_nicas: 1
+    write_nicas_local: 1
     mask_check: 1
-    ntry: 3
-    nrep:  2
     resol: 6.0
-    network: 1
-    mpicom: 2
   correlation: *corr_list___DOMAINS__
