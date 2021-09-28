@@ -1,0 +1,10 @@
+Create new directory called exp.
+Clone soca-science into exp directory.
+Edit start_year, start month, and start day in prep.ufs_fv3_cpld.sh.
+Copy exp.config from /work/noaa/marine/Cameron.Book/fv3/ng-godas/cpld_setup into exp directory. 
+Run prep.ufs_fv3_cpld.sh by entering 'sh prep.ufs_fv3_cpld.sh' in the command line.
+(This will run 12h ufs-weather model RT cpld_bmark_v16 to generate restart files needed by soca-science,
+and stage all necessary configuration files and UFS scripts, as well as set the EXP_START_DATE and BKGRST directory in exp.config.)
+Link cycle.sh from $exp/soca-science/scripts/workflow/cycle.sh to exp. directory.
+Source proper modules (if on Orion, do source $exp/soca-science/configs/machine/machine.orion.intel).
+Submit soca-science experiment with ./cycle.sh.
