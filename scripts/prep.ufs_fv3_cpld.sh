@@ -37,8 +37,8 @@ sed -i.SEDBACKUP "s/month_init.*/month_init      = $start_month/" ice_in
 sed -i.SEDBACKUP "s/day_init.*/day_init      = $start_day/" ice_in
 
 # submit the job.
-sbatch ./job_card
-sleep 22m
+#sbatch ./job_card
+#sleep 22m
 
 cd ../
 
