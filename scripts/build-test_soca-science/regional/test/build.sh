@@ -1,19 +1,26 @@
 #!/bin/sh
 #SBATCH --account=marine-cpu
 
+# Required environment variables:
+envars=()
+envars+=("DATE")
+envars+=("MACHINE")
+envars+=("BUILD_DIR")
+envars+=("EXP_DIR")
+envars+=("CRT_BUILD_DIR")
+envars+=("CRT_EXP_DIR")
+
 module purge
 module load git
 git lfs install
 
-export DATE=$(date +'%Y%m%d')
-mkdir /work/noaa/ng-godas/cbook/build-test_soca-science/builds/${DATE}
-export BUILD_DIR=/work/noaa/ng-godas/cbook/build-test_soca-science/builds/${DATE}
-cd ${BUILD_DIR}
+git clone -b release/stable-nightly https://github.com/JCSDA-internal/soca-science.git ${CRT_EXP_DIR}/soca-science
+
+cd ${CRT_BUILD_DIR}
 
 git clone -b release/stable-nightly https://github.com/JCSDA-internal/soca-science.git
 
-export MACHINE=orion.intel
-source $BUILD_DIR/soca-science/configs/machine/machine.${MACHINE}
+source ${CRT_BUILD_DIR}/soca-science/configs/machine/machine.${MACHINE}
 mkdir ./build
 cd build
 

@@ -1,11 +1,23 @@
 #!/bin/bash
 
+export DATE=$(date +'%Y%m%d')
+export MACHINE=orion.intel
+export BUILD_DIR=/work/ng-godas/$USER/build-test_soca-science/builds
+export EXP_DIR=/work/noaa/ng-godas/${USER}/build-test_soca-science/regional/expdir
+export CRT_BUILD_DIR=${BUILD_DIR}/${DATE}
+export CRT_EXP_DIR=${EXP_DIR}/${DATE}
+
+mkdir ${CRT_BUILD_DIR}
+mkdir ${CRT_EXP_DIR}
+
+
+
 JOB1_ID=$(sbatch --job-name=build --qos=batch --partition=service --time=01:00:00 --parsable build.sh)
 JOB2_ID=$(sbatch --job-name=make --qos=batch --partition=orion --ntasks=12 --time=01:00:00 --dependency=afterok:${JOB1_ID} --parsable make.sh)
 
 sbatch --job-name=cycle_test --qos=batch --partition=orion --dependency=afterok:${JOB2_ID} --time=02:00:00 cycle.sh
 
 ## Resubmit the job for the next execution
-sbatch --begin=now+1day /work/noaa/ng-godas/cbook/build-test_soca-science/regional/test/job_card
+sbatch --begin=now+1day /work/noaa/ng-godas/${USER}/build-test_soca-science/regional/test/job_card
 
 
