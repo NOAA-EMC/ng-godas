@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# user must: clone https://github.com/NOAA-EMC/ng-godas.git, cd to ng-godas/scripts/build-test_soca-science, edit DOMAIN line (regional or global 3dVar experiment) in "job_card", and run './job_card'. 
+
+export DATE=$(date +'%Y%m%d')
+export RESUBMIT=F # T or F; will not re-submit job card if F (T only to be used for regular, automatic testing)
+export SOCA_BRANCH="release/stable-nightly https://github.com/JCSDA-internal/soca-science.git"
+export MACHINE=orion.intel
+export CRT_DIR=$(readlink -f $(pwd) )
+export DOMAIN=global     # regional OR global
+export WRKFLW_DIR=${CRT_DIR}/workflow
+export BUILD_DIR=${CRT_DIR}/builds
+export EXP_DIR=${CRT_DIR}/expdir/${DOMAIN}
+export CRT_BUILD_DIR=${BUILD_DIR}/${DATE}
+export CRT_EXP_DIR=${EXP_DIR}/${DATE}
+
+if [[ ! -d ${BUILD_DIR} ]]; then
+   mkdir ${BUILD_DIR}
+fi
+
+if [[ ! -d ${EXP_DIR} ]]; then
+   mkdir -p ${EXP_DIR}
+fi
+
+mkdir ${CRT_BUILD_DIR}
+mkdir ${CRT_EXP_DIR}
+
+
+JOB1_ID=$(sbatch --job-name=build --qos=batch --partition=service --time=01:00:00 --parsable ${WRKFLW_DIR}/build.sh)
+JOB2_ID=$(sbatch --job-name=make --qos=batch --partition=orion --ntasks=12 --time=01:00:00 --dependency=afterok:${JOB1_ID} --parsable ${WRKFLW_DIR}/make.sh)
+
+sbatch --job-name=cycle_test --qos=batch --partition=orion --dependency=afterok:${JOB2_ID} --time=02:00:00 ${WRKFLW_DIR}/cycle.sh
+
+## Resubmit the job for the next execution
+if [[ "${RESUBMIT}" == T ]]; then
+   sbatch --begin=now+1day ${CRT_DIR}/job_card
+fi
