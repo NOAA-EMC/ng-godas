@@ -1,15 +1,26 @@
 #!/bin/bash
 
+# user must: clone https://github.com/NOAA-EMC/ng-godas.git, cd to ng-godas/scripts/build-test_soca-science, and run './job_card'.
+
 export DATE=$(date +'%Y%m%d')
 export MACHINE=orion.intel
-export BUILD_DIR=/work/ng-godas/$USER/build-test_soca-science/builds
-export EXP_DIR=/work/noaa/ng-godas/${USER}/build-test_soca-science/regional/expdir
+export CRT_DIR=$(readlink -f $(pwd) )
+export DOMAIN=REGIONAL     # REGIONAL or GLOBAL
+export BUILD_DIR=${CRT_DIR}/builds
+export EXP_DIR=${CRT_DIR}/${DOMAIN}/expdir
 export CRT_BUILD_DIR=${BUILD_DIR}/${DATE}
 export CRT_EXP_DIR=${EXP_DIR}/${DATE}
 
+if [[ ! -d ${BUILD_DIR} ]]; then
+   mkdir ${BUILD_DIR}
+fi
+
+if [[ ! -d ${EXP_DIR} ]]; then
+   mkdir -p ${EXP_DIR}
+fi
+
 mkdir ${CRT_BUILD_DIR}
 mkdir ${CRT_EXP_DIR}
-
 
 
 JOB1_ID=$(sbatch --job-name=build --qos=batch --partition=service --time=01:00:00 --parsable build.sh)

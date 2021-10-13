@@ -5,6 +5,8 @@
 envars=()
 envars+=("DATE")
 envars+=("MACHINE")
+envars+=("DOMAIN")
+envars+=("CRT_DIR")
 envars+=("BUILD_DIR")
 envars+=("EXP_DIR")
 envars+=("CRT_BUILD_DIR")
@@ -20,7 +22,7 @@ fi
 
 cd ${CRT_EXP_DIR}
 
-cp /work/noaa/ng-godas/cbook/build-test_soca-science/regional/prep/exp.config ./
+cp ${CRT_DIR}/${DOMAIN}/prep/exp.config ./
 cp -R /work/noaa/ng-godas/cbook/build-test_soca-science/regional/prep/rst ./
 cp -R /work/noaa/ng-godas/cbook/build-test_soca-science/regional/prep/cfg ./
 ln -s ./soca-science/scripts/workflow/cycle.sh .

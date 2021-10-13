@@ -5,6 +5,8 @@
 envars=()
 envars+=("DATE")
 envars+=("MACHINE")
+envars+=("DOMAIN")
+envars+=("CRT_DIR")
 envars+=("BUILD_DIR")
 envars+=("EXP_DIR")
 envars+=("CRT_BUILD_DIR")
