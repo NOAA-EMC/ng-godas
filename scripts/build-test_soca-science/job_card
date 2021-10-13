@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# user must: clone https://github.com/NOAA-EMC/ng-godas.git, cd to ng-godas/scripts/build-test_soca-science, and run './job_card'.
+# user must: clone https://github.com/NOAA-EMC/ng-godas.git, cd to ng-godas/scripts/build-test_soca-science, edit DOMAIN line (regional or global 3dVar experiment) in "job_card", and run './job_card'. 
 
 export DATE=$(date +'%Y%m%d')
 export MACHINE=orion.intel
