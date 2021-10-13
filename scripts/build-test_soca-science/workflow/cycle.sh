@@ -23,8 +23,11 @@ fi
 cd ${CRT_EXP_DIR}
 
 cp ${CRT_DIR}/prep/${DOMAIN}/exp.config ./
-cp -R /work/noaa/ng-godas/cbook/build-test_soca-science/${DOMAIN}/prep/rst ./
-cp -R /work/noaa/ng-godas/cbook/build-test_soca-science/${DOMAIN}/prep/cfg ./
+
+if [[ "${DOMAIN}" == regional ]]; then
+   cp -R /work/noaa/ng-godas/cbook/build-test_soca-science/${DOMAIN}/prep/cfg ./
+fi
+
 ln -s ./soca-science/scripts/workflow/cycle.sh .
 
 # set the correct soca bin directory in  soca-science exp.config file."
