@@ -5,7 +5,7 @@
 export DATE=$(date +'%Y%m%d')
 export MACHINE=orion.intel
 export CRT_DIR=$(readlink -f $(pwd) )
-export DOMAIN=regional     # regional OR global
+export DOMAIN=global     # REGIONAL or GLOBAL
 export BUILD_DIR=${CRT_DIR}/builds
 export EXP_DIR=${CRT_DIR}/${DOMAIN}/expdir
 export CRT_BUILD_DIR=${BUILD_DIR}/${DATE}
