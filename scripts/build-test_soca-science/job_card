@@ -8,7 +8,7 @@ export CRT_DIR=$(readlink -f $(pwd) )
 export DOMAIN=regional     # regional OR global
 export WRKFLW_DIR=${CRT_DIR}/workflow
 export BUILD_DIR=${CRT_DIR}/builds
-export EXP_DIR=${CRT_DIR}/${DOMAIN}/expdir
+export EXP_DIR=${CRT_DIR}/expdir/${DOMAIN}
 export CRT_BUILD_DIR=${BUILD_DIR}/${DATE}
 export CRT_EXP_DIR=${EXP_DIR}/${DATE}
 
