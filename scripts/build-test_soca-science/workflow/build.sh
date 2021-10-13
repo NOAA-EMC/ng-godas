@@ -1,26 +1,15 @@
 #!/bin/sh
 #SBATCH --account=marine-cpu
 
-# Required environment variables:
-envars=()
-envars+=("DATE")
-envars+=("MACHINE")
-envars+=("DOMAIN")
-envars+=("CRT_DIR")
-envars+=("BUILD_DIR")
-envars+=("EXP_DIR")
-envars+=("CRT_BUILD_DIR")
-envars+=("CRT_EXP_DIR")
-
 module purge
 module load git
 git lfs install
 
-git clone -b release/stable-nightly https://github.com/JCSDA-internal/soca-science.git ${CRT_EXP_DIR}/soca-science
+git clone -b ${SOCA_BRANCH}  ${CRT_EXP_DIR}/soca-science
 
 cd ${CRT_BUILD_DIR}
 
-git clone -b release/stable-nightly https://github.com/JCSDA-internal/soca-science.git
+git clone -b ${SOCA_BRANCH}
 
 source ${CRT_BUILD_DIR}/soca-science/configs/machine/machine.${MACHINE}
 mkdir ./build
