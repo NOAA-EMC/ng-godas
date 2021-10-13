@@ -5,7 +5,8 @@
 export DATE=$(date +'%Y%m%d')
 export MACHINE=orion.intel
 export CRT_DIR=$(readlink -f $(pwd) )
-export DOMAIN=global     # REGIONAL or GLOBAL
+export DOMAIN=regional     # regional OR global
+export WRKFLW_DIR=${CRT_DIR}/workflow
 export BUILD_DIR=${CRT_DIR}/builds
 export EXP_DIR=${CRT_DIR}/${DOMAIN}/expdir
 export CRT_BUILD_DIR=${BUILD_DIR}/${DATE}
@@ -23,12 +24,11 @@ mkdir ${CRT_BUILD_DIR}
 mkdir ${CRT_EXP_DIR}
 
 
-JOB1_ID=$(sbatch --job-name=build --qos=batch --partition=service --time=01:00:00 --parsable build.sh)
-JOB2_ID=$(sbatch --job-name=make --qos=batch --partition=orion --ntasks=12 --time=01:00:00 --dependency=afterok:${JOB1_ID} --parsable make.sh)
+JOB1_ID=$(sbatch --job-name=build --qos=batch --partition=service --time=01:00:00 --parsable ${WRKFLW_DIR}/build.sh)
+JOB2_ID=$(sbatch --job-name=make --qos=batch --partition=orion --ntasks=12 --time=01:00:00 --dependency=afterok:${JOB1_ID} --parsable ${WRKFLW_DIR}/make.sh)
 
-sbatch --job-name=cycle_test --qos=batch --partition=orion --dependency=afterok:${JOB2_ID} --time=02:00:00 cycle.sh
+sbatch --job-name=cycle_test --qos=batch --partition=orion --dependency=afterok:${JOB2_ID} --time=02:00:00 ${WRKFLW_DIR}/cycle.sh
 
 ## Resubmit the job for the next execution
-sbatch --begin=now+1day /work/noaa/ng-godas/${USER}/build-test_soca-science/regional/test/job_card
-
+sbatch --begin=now+1day ${CRT_DIR}/job_card
 
