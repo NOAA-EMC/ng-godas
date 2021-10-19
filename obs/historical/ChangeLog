@@ -1,3 +1,7 @@
 10/19/2021: Added WOD INSITU python script to convert IODA converted  data
 centered at 12z to 00z
+ Added ADT Shell script to IODA convert  data
+ centered at 12z to 00z
+  Added SMOS ESA SMAP JPL shell script to IODA convert data 
+  centered at 12z to 00z
 
