@@ -1,0 +1,47 @@
+#!/bin/sh
+#SBATCH -e err_025_2015_gefs
+#SBATCH -o out_025_2015_gefs
+#SBATCH --account=marine-cpu
+#SBATCH --qos=debug #batch
+##SBATCH --partition=orion
+#SBATCH --ntasks=400
+#SBATCH --time=30 #120 
+#SBATCH --job-name="iodap_0.25deg_gefs"
+#SBATCH --exclusive
+
+set -eux
+
+set +x
+
+module purge
+source /work/noaa/da/Cameron.Book/orion.anaconda
+
+set -x
+
+ulimit -s unlimited
+
+echo "Job started:  " `date`
+
+# Avoid job errors because of filesystem synchronization delays
+sync && sleep 1
+
+export PATH=/home/spaturi/.local/bin:$PATH
+
+export Dplot=/work/noaa/ng-godas/spaturi/benchmark_025deg/ioda_plot
+export Da025YC=/work/noaa/ng-godas/spaturi/benchmark_025deg/runs/2015_gefs_emc
+export Dda025=/work/noaa/ng-godas/spaturi/benchmark_025deg/runs/3dvar_025deg_GEFS_jong
+####### Binning
+# da-
+/work/noaa/ng-godas/spaturi/benchmark_025deg/20210918/soca-science/tools/obs_bin.sh $Da025YC -s 2015040100 -e 2015063000
+
+# da
+/work/noaa/ng-godas/spaturi/benchmark_025deg/20210918/soca-science/tools/obs_bin.sh $Dda025 -s 2015040100 -e 2015063000
+
+####### plotting
+/work/noaa/ng-godas/spaturi/benchmark_025deg/20210918/soca-science/tools/obs_plot.sh $Dplot -e da025YC_gefs $Da025YC
+/work/noaa/ng-godas/spaturi/benchmark_025deg/20210918/soca-science/tools/obs_plot.sh $Dplot -e da025_gefs $Dda025
+
+
+echo "Job ended:    " `date`
+
+exit
