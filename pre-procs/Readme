@@ -1,0 +1,7 @@
+10/21/2021:
+1. To compile the code on hera:
+   sh run_makefile.sh 
+2. Step 1 creates the executable read_write_insitu_bufr.x
+   ./read_write_insitu_bufr.x executes the code and creates a
+   ioda-v2 nc file: nsst_bufr_20210212.nc 
+3. The input/output filename(s) are hardcoded. 
