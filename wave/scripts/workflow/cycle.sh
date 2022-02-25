@@ -514,8 +514,8 @@ while true; do
     run_custom post
 
     # run cleanup
-    #run_step post.cleanup
-    #rm -r $SCRATCH_DIR_CYCLE
+    run_step post.cleanup
+    rm -r $SCRATCH_DIR_CYCLE
 
     #===========================================================================
     #===========================================================================
