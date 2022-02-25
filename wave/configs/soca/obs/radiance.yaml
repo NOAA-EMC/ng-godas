@@ -1,0 +1,18 @@
+- obs space:
+    name: radiance___OBS_PLAT__
+    obsdatain:  {obsfile: __OBS_IN_FILE__}
+    obsdataout: {obsfile: __OBS_OUT_DIR__/radiance___OBS_PLAT__.nc}
+    simulated variables: [brightness_temperature]
+    channels: 1-13
+  obs operator:
+    name: CRTM
+    Absorbers: [H2O,O3,CO2]
+    Cloud_Fraction: 1.0
+    obs options:
+      Sensor_ID: gmi_gpm
+      EndianType: little_endian
+      CoefficientPath: Data/crtm/
+  obs filters:
+  - *obs_land_mask
+  - filter: GOMsaver
+    filename: __OBS_OUT_DIR__/radiance___OBS_PLAT___geovals.nc

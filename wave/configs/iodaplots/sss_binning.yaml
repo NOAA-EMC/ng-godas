@@ -1,0 +1,83 @@
+_metrics:
+- &metrics_hofx
+  metrics:
+  - name: obs
+    source: "@ObsValue"
+  - name: ombg
+    source: "@ObsValue - @hofx"
+
+# note: bug in oops, ombg and oman are actually B-O and A-O for var
+- &metrics_var
+  metrics:
+  - name: obs
+    source: "@ObsValue"
+  - name: ombg
+    source: "-@ombg"
+  - name: oman
+    source: "-@oman"
+  - name: "inc"
+    source: "@oman - @ombg"
+
+- &metrics_letkf
+  metrics:
+  - name: obs
+    source: "@ObsValue"
+  - name: ombg
+    source: "@ombg"
+
+_qc_bkg:
+- &qc_bkg_hofx "@hofx"
+- &qc_bkg_var "@ObsValue + @ombg"
+- &qc_bkg_letkf "@ObsValue - @ombg"
+
+#-------------------------------------------------------------------------------
+
+binning:
+
+  variables:
+  - sea_surface_salinity
+
+  qc:
+    sea_surface_salinity:
+    - filter: "@ObsValue"
+      range: [5.0, 50.0]
+    - filter: *qc_bkg___MODE__
+      range: [1.0, 100.0]
+
+  << : *metrics___MODE__
+
+  bins:
+  - name: latlon
+    dimensions:
+    - name: latitude
+      resolution: 2.5
+    - name: longitude
+      resolution: 2.5
+
+  - name: lat
+    dimensions:
+    - name: latitude
+      resolution: 5.0
+
+  - name: global
+    dimensions: []
+
+  - name: eq
+    dimensions:
+    - name: latitude
+      bounds: [-5, 5]
+
+  - name: tp
+    dimensions:
+    - name: latitude
+      bounds: [-20, 20]
+
+  - name: sh
+    dimensions:
+    - name: latitude
+      bounds: [-60, -20]
+
+  - name: nh
+    dimensions:
+    - name: latitude
+      bounds: [20, 60]

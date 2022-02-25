@@ -1,0 +1,30 @@
+- obs space:
+    name: oc___OBS_PLAT__
+    distribution: *obs_distribution
+    obsdatain:  {obsfile: __OBS_IN_FILE__}
+    obsdataout: {obsfile: __OBS_OUT_DIR__/oc___OBS_PLAT__.nc}
+    simulated variables: [mass_concentration_of_chlorophyll_in_sea_water]
+  obs operator:
+    name: Identity
+  obs error:
+    covariance model: diagonal
+  obs localization: # note, this is only used for LETKF
+    localization method: Gaspari-Cohn
+    lengthscale: 500e3
+    search method: kd_tree
+  obs filters:
+  - *obs_land_mask
+  - filter: Gaussian_Thinning
+    horizontal_mesh:   11
+    use_reduced_horizontal_grid: false
+  - filter: Bounds Check
+    minvalue: 0.001
+    maxvalue: 30.0
+  - filter: BlackList
+    where:
+    - variable:
+        name: mass_concentration_of_chlorophyll_in_sea_water@PreQC
+      any_bit_set_of: 0,1,3,4,5,8,9,10,12,14,15,16,19,21,22,25
+    action:
+      name: inflate error
+      inflation factor: 1.5

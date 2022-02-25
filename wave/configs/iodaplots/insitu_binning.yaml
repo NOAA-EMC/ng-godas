@@ -1,0 +1,158 @@
+_metrics:
+- &metrics_hofx
+  metrics:
+  - name: obs
+    source: "@ObsValue"
+  - name: ombg
+    source: "@ObsValue - @hofx"
+
+# note: bug in oops, ombg and oman are actually B-O and A-O for var
+- &metrics_var
+  metrics:
+  - name: obs
+    source: "@ObsValue"
+  - name: ombg
+    source: "-@ombg"
+  - name: oman
+    source: "-@oman"
+  - name: "inc"
+    source: "@oman - @ombg"
+
+- &metrics_letkf
+  metrics:
+  - name: obs
+    source: "@ObsValue"
+  - name: ombg
+    source: "@ombg"
+
+_qc_bkg:
+- &qc_bkg_hofx "@hofx"
+- &qc_bkg_var "@ObsValue + @ombg"
+- &qc_bkg_letkf "@ObsValue - @ombg"
+
+#-------------------------------------------------------------------------------
+
+_depths:
+- &upper
+  name: depth
+  bounds: [0, 300]
+
+- &profile
+  name: depth
+  bins: [0, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500]
+
+#-------------------------------------------------------------------------------
+
+binning:
+
+  variables:
+  - sea_water_temperature
+  - sea_water_salinity
+
+  qc:
+    sea_water_temperature:
+    - filter: "@ObsValue"
+      range: [-2.0, 40.0]
+    - filter: *qc_bkg___MODE__
+      range: [-100.0, 100.0]
+
+    sea_water_salinity:
+    - filter: "@ObsValue"
+      range: [5.0, 50.0]
+    - filter: *qc_bkg___MODE__
+      range: [1.0, 100.0]
+
+  << : *metrics___MODE__
+
+  bins:
+  - name: latlon
+    dimensions:
+    - name: latitude
+      resolution: 5.0
+    - name: longitude
+      resolution: 5.0
+    - *upper
+
+  - name: latlon_surf
+    dimensions:
+    - name: latitude
+      resolution: 2.5
+    - name: longitude
+      resolution: 2.5
+    - name: depth
+      bounds: [0, 10]
+
+  - name: lat
+    dimensions:
+    - name: latitude
+      resolution: 5.0
+
+  - name: lat_prof
+    dimensions:
+    - name: latitude
+      resolution: 5.0
+    - *profile
+
+  - name: global
+    dimensions:
+    - *upper
+
+  - name: global_prof
+    dimensions:
+    - *profile
+
+  - name: eq
+    dimensions:
+    - name: latitude
+      bounds: [-5, 5]
+    - *upper
+
+  - name: eq_prof
+    dimensions:
+    - name: latitude
+      bounds: [-5, 5]
+    - *profile
+
+  - name: eq_prof_lon
+    dimensions:
+    - name: latitude
+      bounds: [-5, 5]
+    - name: longitude
+      resolution: 5.0
+    - *profile
+
+  - name: tp
+    dimensions:
+    - name: latitude
+      bounds: [-20, 20]
+    - *upper
+
+  - name: tp_prof
+    dimensions:
+    - name: latitude
+      bounds: [-20, 20]
+    - *profile
+
+  - name: sh
+    dimensions:
+    - name: latitude
+      bounds: [-60, -20]
+    - *upper
+
+  - name: sh_prof
+    dimensions:
+    - name: latitude
+      bounds: [-60, -20]
+    - *profile
+
+  - name: nh
+    dimensions:
+    - name: latitude
+      bounds: [20, 60]
+    - *upper
+
+  - name: nh_prof
+    dimensions:
+    - name: latitude
+      bounds: [20, 60]
+    - *profile

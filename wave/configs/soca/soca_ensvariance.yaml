@@ -1,0 +1,49 @@
+# the list of background files depends on whether we're using ice
+_: &bkg_files_ocn
+    ocn_filename: MOM.res.nc
+_: &bkg_files_ocn_ice
+    ice_filename: cice.res.nc
+    << : *bkg_files_ocn
+_: &bkg_files_ocn_wav
+    wav_filename: wav.res.nc
+    << : *bkg_files_ocn
+_: &bkg_files *bkg_files___DOMAINS__
+
+_: &soca_vars [__DA_VARIABLES__, mld, layer_depth]
+
+geometry:
+  mom6_input_nml: mom_input.nml
+  fields metadata: fields_metadata.yaml
+
+background:
+  read_from_file: 1
+  basename: ./bkg/
+  << : *bkg_files
+  date: __DA_BKG_DATE__
+  state variables: *soca_vars
+
+variance output:
+  datadir: Data
+  exp: ens_variance
+  type: fc
+  date: __DA_BKG_DATE__
+
+ensemble:
+  output variables: *soca_vars
+  _: &ens_member
+   date: __DA_BKG_DATE__
+   read_from_file: 1
+   basename: ./
+   state variables: *soca_vars
+
+  members:
+__ENSEMBLE__
+
+  variable changes:
+  - variable change: BalanceSOCA
+    dsdtmax: 0.1
+    dsdzmin: 3.0e-6
+    dtdzmin: 1.0e-6
+    nlayers: 10
+    input variables: *soca_vars
+    output variables: *soca_vars

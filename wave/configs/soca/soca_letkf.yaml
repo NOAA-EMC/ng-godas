@@ -1,0 +1,54 @@
+# placeholders used by the obs yaml files that will be placed
+#  where _OBSERVATIONS_ token is
+
+_: &obs_distribution_observer RoundRobin
+_: &obs_distribution_solver InefficientDistribution
+_: &obs_distribution *obs_distribution___MODE__
+
+_: &obs_land_mask
+  filter: Domain Check
+  where:
+  - variable: {name: sea_area_fraction@GeoVaLs}
+    minvalue: 0.5
+
+window begin: &date __DA_WINDOW_START__
+window length: __DA_WINDOW_LENGTH__
+
+_: &soca_vars [__DA_VARIABLES__, mld, layer_depth]
+
+geometry:
+  mom6_input_nml: mom_input.nml
+  fields metadata: fields_metadata.yaml
+
+background:
+  variables: *soca_vars
+  _: &ens_member
+    date: __DA_ANA_DATE__
+    read_from_file: 1
+    basename: ./
+    state variables: *soca_vars
+  members:
+__ENSEMBLE__
+
+_: &driver_opt_observer
+  run as observer only: true
+_: &driver_opt_solver
+  read HX from disk: true
+driver:
+  << : *driver_opt___MODE__
+  do posterior observer: false
+  save posterior mean: true
+
+local ensemble DA:
+  solver: LETKF
+  inflation:
+    rtps: 0.95
+
+output:
+  datadir: Data
+  date: *date
+  exp: letkf
+  type: ens
+
+observations:
+__OBSERVATIONS__
