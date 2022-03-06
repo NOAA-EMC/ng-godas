@@ -1,0 +1,47 @@
+#############################################################
+# Rename the file extension to ".yaml" (remove "_") to enable
+#############################################################
+
+name: ------- Building Pull Requests (ufs-srweather-app) -------
+
+on:
+  # run it on push to the default repository branch
+  push:
+    branches: [develop]
+  # run it during pull request
+  pull_request:      
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # windows-latest | macos-latest
+    
+    defaults:
+      run:
+        shell: bash
+    
+    container:
+      image: docker://noaaepic/ubuntu20.04-hpc-stack:0.1
+      
+    name: 1. Build ufs-srweather-app in the container
+    steps:
+      - uses: actions/checkout@v2
+      - uses: jitterbit/get-changed-files@v1
+        id: abc
+        with:
+          format: space-delimited
+          token: ${{ secrets.GITHUB_TOKEN }}        
+          
+      - name: Get PR Ref and Repo information
+        run: | 
+          echo ${{ steps.abc.outputs.all }}
+        env:
+          PR_HEAD_REF: ${{github.event.pull_request.head.ref}}
+          PR_HEAD_USEREPO: ${{github.event.pull_request.head.repo.full_name}}   
+      - name: 1.1. Running cmake/make ufs-srweather-app
+        run: | 
+          echo $PR_HEAD_REF
+          echo $PR_HEAD_USEREPO
+          ls /opt
+          cd /opt
+          ln -s /usr/bin/python3 /usr/bin/python
+          git clone -b $PR_HEAD_REF $PR_HEAD_USEREPO
