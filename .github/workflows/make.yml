@@ -24,12 +24,11 @@ jobs:
       
     name: 1. Build ufs-srweather-app in the container
     steps:
-      - name: set working dir
-        working-directory: ./app
       - uses: actions/checkout@v2
         with:
           ref: ${{github.event.pull_request.head.ref}}
-          repository: ${{github.event.pull_request.head.repo.full_name}}      
+          repository: ${{github.event.pull_request.head.repo.full_name}}
+          path: ./app
           
       #- name: Get PR Ref and Repo information
       #  run: | 
@@ -41,7 +40,7 @@ jobs:
         run: | 
           #echo $PR_HEAD_REF
           #echo $PR_HEAD_USEREPO
-          cd app
+          cd ./app
           echo $(pwd)
           echo $(ls)
           #ls /opt
