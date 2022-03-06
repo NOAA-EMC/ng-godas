@@ -19,8 +19,8 @@ jobs:
       run:
         shell: bash
     
-    #container:
-    #  image: docker://noaaepic/ubuntu20.04-hpc-stack:0.1
+    container:
+      image: docker://noaaepic/ubuntu20.04-hpc-stack:0.1
       
     name: 1. Build ufs-srweather-app in the container
     steps:
@@ -28,7 +28,7 @@ jobs:
         with:
           ref: ${{github.event.pull_request.head.ref}}
           repository: ${{github.event.pull_request.head.repo.full_name}}
-          path: ./app
+          path: ./
           
       #- name: Get PR Ref and Repo information
       #  run: | 
@@ -40,7 +40,7 @@ jobs:
         run: | 
           #echo $PR_HEAD_REF
           #echo $PR_HEAD_USEREPO
-          cd ./app
+          cd ./
           echo $(pwd)
           echo $(ls)
           #ls /opt
