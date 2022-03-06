@@ -29,21 +29,18 @@ jobs:
           ref: ${{github.event.pull_request.head.ref}}
           repository: ${{github.event.pull_request.head.repo.full_name}}
           path: ./
-          
-      #- name: Get PR Ref and Repo information
-      #  run: | 
-      #    echo ${{ steps.abc.outputs.all }}
-      #  env:
-      #    PR_HEAD_REF: ${{github.event.pull_request.head.ref}}
-      #    PR_HEAD_USEREPO: ${{github.event.pull_request.head.repo.full_name}}   
+           
       - name: 1.1. Running cmake/make ufs-srweather-app
         run: | 
-          #echo $PR_HEAD_REF
-          #echo $PR_HEAD_USEREPO
           cd ./
           echo $(pwd)
           echo $(ls)
-          #ls /opt
+          echo $(ls /opt)
           #cd /opt
-          #ln -s /usr/bin/python3 /usr/bin/python
-          #git clone -b $PR_HEAD_REF $PR_HEAD_USEREPO
+          ln -s /usr/bin/python3 /usr/bin/python
+          source /usr/share/lmod/6.6/init/profile
+          module use /opt/hpc-modules/modulefiles/stack
+          module load hpc hpc-gnu hpc-openmpi
+          module load netcdf hdf5 bacio sfcio sigio nemsio w3emc esmf fms crtm g2 png zlib g2tmpl ip sp w3nco cmake/3.21.1 gfsio wgrib2 upp
+          
+           
