@@ -7,4 +7,5 @@ Run prep.ufs_fv3_cpld.sh by entering 'sh prep.ufs_fv3_cpld.sh' in the command li
 and stage all necessary configuration files and UFS scripts, as well as set the EXP_START_DATE and BKGRST directory in exp.config.)
 Link cycle.sh from $exp/soca-science/scripts/workflow/cycle.sh to exp. directory.
 Source proper modules (if on Orion, do source $exp/soca-science/configs/machine/machine.orion.intel).
-Submit soca-science experiment with ./cycle.sh.
+Submit soca-science experiment with ./cycle.sh
+testing action
