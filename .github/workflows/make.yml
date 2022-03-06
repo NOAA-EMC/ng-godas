@@ -25,23 +25,22 @@ jobs:
     name: 1. Build ufs-srweather-app in the container
     steps:
       - uses: actions/checkout@v2
-      - uses: jitterbit/get-changed-files@v1
-        id: abc
         with:
-          format: space-delimited
-          token: ${{ secrets.GITHUB_TOKEN }}        
+          ref: ${{github.event.pull_request.head.ref}}
+          repository: ${{github.event.pull_request.head.repo.full_name}}      
           
-      - name: Get PR Ref and Repo information
-        run: | 
-          echo ${{ steps.abc.outputs.all }}
-        env:
-          PR_HEAD_REF: ${{github.event.pull_request.head.ref}}
-          PR_HEAD_USEREPO: ${{github.event.pull_request.head.repo.full_name}}   
+      #- name: Get PR Ref and Repo information
+      #  run: | 
+      #    echo ${{ steps.abc.outputs.all }}
+      #  env:
+      #    PR_HEAD_REF: ${{github.event.pull_request.head.ref}}
+      #    PR_HEAD_USEREPO: ${{github.event.pull_request.head.repo.full_name}}   
       - name: 1.1. Running cmake/make ufs-srweather-app
         run: | 
-          echo $PR_HEAD_REF
-          echo $PR_HEAD_USEREPO
+          #echo $PR_HEAD_REF
+          #echo $PR_HEAD_USEREPO
+          ls
           ls /opt
           cd /opt
           ln -s /usr/bin/python3 /usr/bin/python
-          git clone -b $PR_HEAD_REF $PR_HEAD_USEREPO
+          #git clone -b $PR_HEAD_REF $PR_HEAD_USEREPO
