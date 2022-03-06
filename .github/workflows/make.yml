@@ -19,8 +19,8 @@ jobs:
       run:
         shell: bash
     
-    container:
-      image: docker://noaaepic/ubuntu20.04-hpc-stack:0.1
+    #container:
+    #  image: docker://noaaepic/ubuntu20.04-hpc-stack:0.1
       
     name: 1. Build ufs-srweather-app in the container
     steps:
@@ -39,8 +39,9 @@ jobs:
         run: | 
           #echo $PR_HEAD_REF
           #echo $PR_HEAD_USEREPO
-          ls
-          ls /opt
-          cd /opt
-          ln -s /usr/bin/python3 /usr/bin/python
+          cd ng-godas
+          echo $(pwd)
+          #ls /opt
+          #cd /opt
+          #ln -s /usr/bin/python3 /usr/bin/python
           #git clone -b $PR_HEAD_REF $PR_HEAD_USEREPO
