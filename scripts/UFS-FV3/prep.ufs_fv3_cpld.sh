@@ -59,4 +59,4 @@ python ./soca-science/tools/seaice/soca_seaice.py -m cice -f ./cfg/RESTART/${sta
 
 # set the correct restart directory and EXP_START_DATE for soca-science exp.config file."
 sed -i.SEDBACKUP "s+EXP_START_DATE.*+EXP_START_DATE=${start_date}Z12+" exp.config
-sed -i.SEDBACKUP "s+BKGRST_SRC.*+BKGRST_SRC=$EXP_DIR/cfg/RESTART/${start_date}12+" exp.config
+sed -i.SEDBACKUP "s+BKGRST_SRC='${EXP_DIR}'.*+BKGRST_SRC=/cfg/RESTART/${start_date}12+" exp.config
